@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AB Private Lending Fund — Pantor Intelligence</title>
+<meta name="description" content="Tender offer dossier for AB Private Lending Fund: filed facts, trapped-demand analytics, and model projections.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0e14'/><path d='M25 75 V25 h28 a16 16 0 0 1 0 32 H37' stroke='%233987e5' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-slug="ab-private-lending-fund">
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="../index.html"><span class="tick">▮▮</span>PANTOR <small>INTELLIGENCE</small></a>
+    <div class="nav-links">
+      <a href="../index.html">Dashboard</a>
+      <a href="../opportunities.html">Opportunities</a>
+      <a href="../methodology.html">Methodology</a>
+    </div>
+  </div>
+</nav>
+
+<header class="fund-hero wrap">
+  <div class="crumbs"><a href="../index.html">Dashboard</a> / <a href="../index.html#funds">Funds</a> / <span id="crumbName"></span></div>
+  <div class="fund-title-row">
+    <div>
+      <div class="kicker">Fund dossier</div>
+      <h1 id="fundName"></h1>
+      <div class="fund-meta" id="fundMeta"></div>
+    </div>
+    <div class="score-dial">
+      <div id="scoreDial"></div>
+      <div class="sd-num" id="scoreCaption"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section reveal" style="padding-top:26px">
+    <div class="section-head">
+      <h2>Last completed cycle</h2>
+      <span class="badge badge-fact"><i class="dot"></i>Filed fact</span>
+      <span class="note">straight from the SC TO-I / SC TO-I/A</span>
+    </div>
+    <div class="kpis" id="factTiles" style="grid-template-columns:repeat(5,1fr)"></div>
+  </section>
+
+  <div id="anomalySlot" class="wrap-slot" style="margin-top:18px"></div>
+
+  <section class="section reveal">
+    <div class="section-head">
+      <h2>The floodgate, simulated</h2>
+      <span class="badge badge-derived"><i class="dot"></i>Derived from filings</span>
+    </div>
+    <div class="gate-3d" id="gate3d">
+      <div class="g3d-cap" id="gateCaption"></div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-head"><div><h3>Demand vs the gate</h3><p class="card-sub">tendered demand against the repurchase cap</p></div>
+        <span class="badge badge-fact"><i class="dot"></i>Filed fact</span></div>
+        <div id="capMeterHost" style="padding-top:22px"></div>
+        <p class="card-sub" id="capNote" style="margin-top:14px"></p>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>Where tendered shares went</h3><p class="card-sub">repurchased vs refused, last cycle</p></div>
+        <span class="badge badge-derived"><i class="dot"></i>Derived</span></div>
+        <div id="splitHost"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="card pred-card">
+      <div class="card-head">
+        <div><h3>Forward view</h3><p class="card-sub">what the queue model expects next — not filed data</p></div>
+        <span class="badge badge-estimate"><i class="dot"></i>Model estimate</span>
+      </div>
+      <div class="legend">
+        <span class="lg"><span class="ln" style="border-color:var(--fact)"></span>Filed tender (fact)</span>
+        <span class="lg"><span class="ln ln-dash" style="border-color:var(--estimate)"></span>Projected window (estimate)</span>
+      </div>
+      <div id="timelineHost"></div>
+      <div class="pred-grid" id="predGrid"></div>
+      <p class="pred-basis" id="predBasis"></p>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="grid grid-2">
+      <div class="card advice-card">
+        <div class="card-head"><div><h3>Pantor desk view</h3><p class="card-sub">how to trade this fund's illiquidity</p></div>
+        <span class="badge badge-estimate"><i class="dot"></i>Model estimate</span></div>
+        <p id="adviceText"></p>
+      </div>
+      <div class="card">
+        <div class="card-head"><div><h3>Full record</h3><p class="card-sub">every number, graded by provenance</p></div></div>
+        <ul class="facts-list" id="factsList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="pager" id="pager"></div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span class="fbrand">PANTOR // INTELLIGENCE</span>
+    <p>Filed facts are transcribed from SC TO-I and SC TO-I/A filings on SEC EDGAR. Scores, projections and desk views are model output — see <a href="../methodology.html">methodology</a>. Not investment advice.</p>
+  </div>
+</footer>
+
+<script type="module" src="../assets/js/bdc.js"></script>
+</body>
+</html>

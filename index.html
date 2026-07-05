@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pantor Intelligence — BDC Tender Offer Terminal</title>
+<meta name="description" content="Live intelligence on non-traded BDC tender offers: oversubscription, trapped demand, and where Pantor Capital Solutions makes money.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0e14'/><path d='M25 75 V25 h28 a16 16 0 0 1 0 32 H37' stroke='%233987e5' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="tick">▮▮</span>PANTOR <small>INTELLIGENCE</small></a>
+    <div class="nav-links">
+      <a href="index.html" aria-current="page">Dashboard</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="methodology.html">Methodology</a>
+    </div>
+    <span class="nav-asof" id="asof"></span>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-3d" id="hero3d">
+    <div class="h3d-overlay">
+      <div class="kicker">BDC liquidity market · Q2 2026 cycle</div>
+      <h1>The floodgate market, in one room</h1>
+      <p class="sub">Every column is a fund; height is redemption demand. The violet plane is the 5% floodgate — anything piercing it refused investors their exit.</p>
+    </div>
+    <div class="h3d-tip" id="hero3dTip"></div>
+    <div class="h3d-hint">drag to orbit · scroll to zoom · click a column</div>
+  </div>
+</header>
+
+<main>
+  <section class="section wrap reveal">
+    <div class="section-head">
+      <h2>Market pulse</h2>
+      <span class="badge badge-derived"><i class="dot"></i>Derived from filings</span>
+      <span class="note">Latest completed cycle per fund, per SC TO-I / SC TO-I/A</span>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section class="section wrap reveal">
+    <div class="section-head">
+      <h2>Who slammed the gate</h2>
+      <span class="badge badge-fact"><i class="dot"></i>Filed fact</span>
+      <span class="note">Redemption demand vs the floodgate cap — demand ÷ cap &gt; 1.0× means investors were refused</span>
+    </div>
+    <div class="card">
+      <div class="legend">
+        <span class="lg"><span class="sw" style="background:var(--status-critical)"></span>Oversubscribed (demand above cap)</span>
+        <span class="lg"><span class="sw" style="background:var(--series-1)"></span>Cleared within cap</span>
+        <span class="lg"><span class="sw" style="background:var(--de-emphasis)"></span>Zero tendered</span>
+      </div>
+      <div id="oversubChart"></div>
+    </div>
+  </section>
+
+  <section class="section wrap reveal">
+    <div class="section-head">
+      <h2>The opportunity map</h2>
+      <span class="badge badge-derived"><i class="dot"></i>Derived from filings</span>
+      <span class="note">Bottom-right is Pantor territory: heavy demand, low repurchase — bubble area = trapped shares</span>
+    </div>
+    <div class="card">
+      <div class="legend">
+        <span class="lg"><span class="sw" style="background:var(--status-critical)"></span>Oversubscribed</span>
+        <span class="lg"><span class="sw" style="background:var(--series-1)"></span>Within cap</span>
+        <span class="lg"><span class="sw" style="border:1px solid var(--ink-muted);background:transparent;border-radius:50%"></span>Bubble area = shares refused exit</span>
+      </div>
+      <div id="scatterChart"></div>
+    </div>
+  </section>
+
+  <section class="section wrap reveal" id="funds">
+    <div class="section-head">
+      <h2>Fund universe</h2>
+      <span class="note">All 32 tracked funds — click any row for its full dossier</span>
+    </div>
+    <div class="filters" id="filters">
+      <span class="f-label">Status</span>
+      <button class="fbtn" data-filter="all" aria-pressed="true">All</button>
+      <button class="fbtn" data-filter="oversubscribed" aria-pressed="false">Oversubscribed</button>
+      <button class="fbtn" data-filter="executed" aria-pressed="false">Fully executed</button>
+      <button class="fbtn" data-filter="cap-breach" aria-pressed="false">Cap breach</button>
+      <button class="fbtn" data-filter="quiet" aria-pressed="false">Zero / no filing</button>
+      <input class="fsearch" id="fundSearch" type="search" placeholder="Search fund or CIK…" aria-label="Search funds">
+    </div>
+    <div class="card table-card">
+      <div class="ltable-scroll">
+        <table class="ltable" id="leagueTable" aria-label="All tracked BDC tender offers">
+          <thead><tr>
+            <th data-key="dateOfTender">Date of tender<span class="arrow">▼</span></th>
+            <th data-key="name">Fund<span class="arrow">▼</span></th>
+            <th data-key="sharesTendered">Shares tendered<span class="arrow">▼</span></th>
+            <th data-key="pctOutstanding">% of outstanding<span class="arrow">▼</span></th>
+            <th data-key="floodgate">Floodgate<span class="arrow">▼</span></th>
+            <th data-key="repurchasePct">Repurchase<span class="arrow">▼</span></th>
+            <th data-key="unmetShares">Trapped shares<span class="arrow">▼</span></th>
+            <th data-key="score">Pantor score<span class="arrow">▼</span></th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span class="fbrand">PANTOR // INTELLIGENCE</span>
+    <p>Filed facts are transcribed from SC TO-I and SC TO-I/A filings on SEC EDGAR via the Pantor Capital Solutions Tender Offer Tracker. Scores, projections and advice are model output — see <a href="methodology.html">methodology</a>. Not investment advice.</p>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/home.js"></script>
+</body>
+</html>

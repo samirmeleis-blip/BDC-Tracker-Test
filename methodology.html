@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology — Pantor Intelligence</title>
+<meta name="description" content="How Pantor Intelligence separates filed facts from derived analytics and model estimates, and the exact formulas behind scores and projections.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230b0e14'/><path d='M25 75 V25 h28 a16 16 0 0 1 0 32 H37' stroke='%233987e5' stroke-width='10' fill='none' stroke-linecap='round'/></svg>">
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="tick">▮▮</span>PANTOR <small>INTELLIGENCE</small></a>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="methodology.html" aria-current="page">Methodology</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap" style="padding-bottom:0">
+  <div class="kicker">How to read this product</div>
+  <h1>Methodology</h1>
+</header>
+
+<main class="wrap">
+  <div class="prose section" style="padding-top:20px">
+
+    <h2>The market in one paragraph</h2>
+    <p>Non-traded BDCs let investors in freely but only let them out through quarterly tender offers. Each quarter a fund files an <strong>SC TO-I</strong> announcing it will repurchase up to a capped percentage of its shares — the <strong>floodgate</strong>, usually 5%. When the offer closes, the <strong>SC TO-I/A final amendment</strong> reports how many shares were tendered and what fraction was actually repurchased. When demand exceeds the floodgate, the offer is <strong>oversubscribed</strong>: tendering investors are rationed pro-rata, and the remainder are stuck until next quarter. Pantor Capital Solutions monetizes that stuck remainder — bridge loans to trapped investors, and capacity arrangements with the funds themselves.</p>
+
+    <h2>Three grades of information</h2>
+    <p>Every number on this site carries one of three provenance grades. The distinction is enforced visually everywhere — solid blue for facts, green for arithmetic, dashed violet for anything about the future:</p>
+    <ul>
+      <li><span class="badge badge-fact"><i class="dot"></i>Filed fact</span> — transcribed from SC TO-I / SC TO-I/A filings on SEC EDGAR: date of tender, shares tendered, % of shares outstanding, floodgate, repurchase rate, CIK.</li>
+      <li><span class="badge badge-derived"><i class="dot"></i>Derived</span> — deterministic arithmetic on filed facts. Example: <em>trapped shares</em> = shares tendered × (1 − repurchase rate). No judgment involved; anyone with the filing reproduces the same number.</li>
+      <li><span class="badge badge-estimate"><i class="dot"></i>Model estimate</span> — statements about the future or about desirability: projected tender windows, projected demand, oversubscription probability, opportunity scores, and every sentence of desk advice. These can be wrong.</li>
+    </ul>
+
+    <h2>The prediction model</h2>
+    <p>The forward view is a deliberately simple, fully disclosed queue model — not a black box:</p>
+    <ul>
+      <li><strong>Next tender window.</strong> Funds run quarterly programs, so the projected window is the last final-amendment date + 91 days, ± 14 days.</li>
+      <li><strong>Projected demand.</strong> Trapped demand doesn't evaporate — it re-queues. We assume <strong>85%</strong> of refused shares re-tender and <strong>60%</strong> of successfully executed demand recurs organically:</li>
+    </ul>
+    <p class="formula">projected&nbsp;demand&nbsp;% = 0.85 × (tendered% × (1 − repurchase)) + 0.60 × min(tendered% × repurchase, floodgate)</p>
+    <ul>
+      <li><strong>Projected repurchase rate</strong> = min(100%, floodgate ÷ projected demand), assuming the floodgate holds.</li>
+      <li><strong>Oversubscription probability</strong> is a logistic transform of projected demand ÷ floodgate, centered at 1.0×.</li>
+    </ul>
+    <p>Every fund currently has exactly <strong>one completed cycle</strong> in the dataset, so all projections carry at most <em>moderate</em> confidence and are labeled directional. As the tracker accrues quarters, the same model re-fits on real cadence and re-tender behavior per fund.</p>
+
+    <h2>The Pantor opportunity score</h2>
+    <p>A 0–100 ranking of how much revenue potential a fund offers Pantor, built from three components:</p>
+    <p class="formula">score = 55 × min(1, trapped ÷ 0.85) &nbsp;+&nbsp; 25 × min(1, (demand÷cap − 1) ÷ 6) &nbsp;+&nbsp; 20 × min(1, log₁₀(trapped shares) ÷ 8.6)</p>
+    <ul>
+      <li><strong>Trapped-demand intensity (55 pts).</strong> The fraction of tendered shares refused exit. This is the direct measure of borrowers who need Pantor.</li>
+      <li><strong>Cap pressure (25 pts).</strong> How far demand ran past the floodgate. Pressure predicts recurrence.</li>
+      <li><strong>Scale (20 pts).</strong> Log of absolute trapped shares — a fund with 358M trapped shares supports a bigger book than one with 274K, at any intensity.</li>
+    </ul>
+    <p>Tiers: <strong>Prime</strong> ≥ 70 · <strong>Strong</strong> ≥ 45 · <strong>Moderate</strong> ≥ 22 · <strong>Watchlist</strong> = fully executed but demand ≥ 85% of the cap (one cycle from locking up) · <strong>Low</strong> otherwise · <strong>Insufficient data</strong> when no cycle is on file.</p>
+
+    <h2>Anomalies we flag</h2>
+    <p>Some funds report demand <em>above</em> the floodgate yet repurchase 100% of tendered shares (e.g. a 6.8% tender against a 5% cap, fully honored). That means the board raised or waived the cap for the cycle. We flag these as <strong>cap breach anomalies</strong>: no trapped borrowers today, but the stated floodgate is soft and the demand pressure is real — classic watchlist material.</p>
+
+    <h2>Reading the visuals</h2>
+    <ul>
+      <li>In the 3D market view, column height is √-scaled tendered demand (exact values in the tooltip); the violet plane floats at the 5% floodgate. In the per-fund gate simulation, the particle pass-through rate <em>is</em> the fund's filed repurchase rate.</li>
+      <li>In charts, red marks mean demand above the cap (a state, not a series); blue means cleared within the cap; violet + dashed always means model estimate.</li>
+      <li>Every chart has a table view (the toggle at its top-right) carrying the same numbers as text.</li>
+    </ul>
+
+    <h2>Data pipeline</h2>
+    <p>The dataset is the Pantor Capital Solutions Tender Offer Tracker, refreshed weekly (Sundays, 6pm PT) from SEC EDGAR: for each fund's CIK, the most recent SC TO-I and its <em>final</em> SC TO-I/A are paired per cycle; a row updates only when a cycle's final amendment is confirmed (the "final amendment" checkbox on the Schedule TO cover). Funds with a new SC TO-I but no final amendment yet are intentionally left at their last completed cycle. Where a datapoint cannot be extracted from filings it appears as N/A, never imputed.</p>
+
+    <h2>Disclaimer</h2>
+    <p>This is an internal decision-support tool. Model estimates are directional, built on single-cycle observations, and clearly separated from filed facts precisely because they may be wrong. Nothing here is investment advice or a recommendation to any investor.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span class="fbrand">PANTOR // INTELLIGENCE</span>
+    <p>Filed facts from SEC EDGAR via the Pantor Capital Solutions Tender Offer Tracker. Not investment advice.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { initReveal } from "./assets/js/ui.js";
+  initReveal();
+</script>
+</body>
+</html>
