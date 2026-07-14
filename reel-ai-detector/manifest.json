@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Reel AI Detector",
+  "version": "0.1.0",
+  "description": "Overlays an AI-likelihood badge on Instagram Reels, scored by Claude vision. Confidence estimate, not a verdict.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://api.anthropic.com/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html",
+  "action": { "default_title": "Reel AI Detector — settings" }
+}

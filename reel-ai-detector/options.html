@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reel AI Detector — Settings</title>
+<style>
+  body { font: 14px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 560px; margin: 40px auto; padding: 0 16px; color: #1c1e24; }
+  h1 { font-size: 18px; }
+  label { display: block; font-weight: 600; margin: 18px 0 6px; }
+  input, select { width: 100%; padding: 8px 10px; font-size: 14px; border: 1px solid #c6c9d2; border-radius: 6px; box-sizing: border-box; }
+  button { margin-top: 18px; padding: 8px 18px; font-size: 14px; font-weight: 600; border: 0; border-radius: 6px; background: #3441d1; color: #fff; cursor: pointer; }
+  #status { margin-left: 12px; color: #1d7a3f; }
+  .note { color: #5a5f6d; font-size: 13px; margin-top: 20px; }
+</style>
+</head>
+<body>
+  <h1>Reel AI Detector</h1>
+
+  <label for="apiKey">Anthropic API key</label>
+  <input id="apiKey" type="password" placeholder="sk-ant-...">
+
+  <label for="model">Model</label>
+  <select id="model">
+    <option value="claude-opus-4-8">Claude Opus 4.8 (default — most accurate)</option>
+    <option value="claude-sonnet-5">Claude Sonnet 5 (cheaper)</option>
+    <option value="claude-haiku-4-5">Claude Haiku 4.5 (cheapest, fastest)</option>
+  </select>
+
+  <button id="save">Save</button><span id="status"></span>
+
+  <p class="note">
+    Your key is stored in Chrome's extension storage on this profile and is sent only to
+    api.anthropic.com. Every reel analyzed makes one API call (3 small images), billed to
+    your Anthropic account. Scores are calibrated estimates, not proof — heavy Instagram
+    compression hides many artifacts.
+  </p>
+
+  <script src="options.js"></script>
+</body>
+</html>
